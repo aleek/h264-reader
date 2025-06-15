@@ -57,7 +57,7 @@ impl From<BitReaderError> for SpsError {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug,Clone,PartialEq)]
 pub enum Profile {
     Unknown(u8),
     Baseline,
@@ -167,7 +167,7 @@ impl Debug for ConstraintFlags {
     }
 }
 
-#[derive(Debug, PartialEq, Hash, Eq)]
+#[derive(Debug, Clone, PartialEq, Hash, Eq)]
 #[allow(non_camel_case_types)]
 pub enum Level {
     Unknown(u8),
