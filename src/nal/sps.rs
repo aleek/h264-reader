@@ -704,8 +704,49 @@ impl VideoFormat {
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
+pub enum ColourPrimaries {
+    Bt709,
+    Bt470M,
+    Bt470Bg,
+    Smpte170M,
+    Smpte240M,
+    GenericFilm,
+    Bt2020,
+    Smpte428_1,
+    Smpte431_2,
+    Smpte432_1,
+    Ebu3213,
+    #[default]
+    Unspecified,
+    Reserved(u8),
+}
+
+impl ColourPrimaries {
+    fn from(colour_primaries: u8) -> ColourPrimaries {
+        match colour_primaries {
+            0 => ColourPrimaries::Reserved(colour_primaries),
+            1 => ColourPrimaries::Bt709,
+            2 => ColourPrimaries::Unspecified,
+            3 => ColourPrimaries::Reserved(colour_primaries),
+            4 => ColourPrimaries::Bt470M,
+            5 => ColourPrimaries::Bt470Bg,
+            6 => ColourPrimaries::Smpte170M,
+            7 => ColourPrimaries::Smpte240M,
+            8 => ColourPrimaries::GenericFilm,
+            9 => ColourPrimaries::Bt2020,
+            10 => ColourPrimaries::Smpte428_1,
+            11 => ColourPrimaries::Smpte431_2,
+            12 => ColourPrimaries::Smpte432_1,
+            22 => ColourPrimaries::Ebu3213,
+            _ => ColourPrimaries::Reserved(colour_primaries),
+        }
+    }
+}
+
+//video_format: VideoFormat::from(r.read(3, "video_format")?),
+#[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct ColourDescription {
-    pub colour_primaries: u8,
+    pub colour_primaries: ColourPrimaries,
     pub transfer_characteristics: u8,
     pub matrix_coefficients: u8,
 }
@@ -714,7 +755,7 @@ impl ColourDescription {
         let colour_description_present_flag = r.read_bool("colour_description_present_flag")?;
         Ok(if colour_description_present_flag {
             Some(ColourDescription {
-                colour_primaries: r.read(8, "colour_primaries")?,
+                colour_primaries: ColourPrimaries::from(r.read(8, "colour_primaries")?),
                 transfer_characteristics: r.read(8, "transfer_characteristics")?,
                 matrix_coefficients: r.read(8, "matrix_coefficients")?,
             })
@@ -1946,7 +1987,7 @@ mod test {
                     video_format: VideoFormat::Unspecified,
                     video_full_range_flag: true,
                     colour_description: Some(ColourDescription{
-                        colour_primaries: 1,
+                        colour_primaries: ColourPrimaries::Bt709,
                         transfer_characteristics: 1,
                         matrix_coefficients: 1,
                     }),
@@ -2000,7 +2041,7 @@ mod test {
                     video_format: VideoFormat::Unspecified,
                     video_full_range_flag: false,
                     colour_description: Some(ColourDescription{
-                        colour_primaries: 1,
+                        colour_primaries: ColourPrimaries::Bt709,
                         transfer_characteristics: 1,
                         matrix_coefficients: 1,
                     }),
@@ -2070,7 +2111,7 @@ mod test {
                     video_format: VideoFormat::Unspecified,
                     video_full_range_flag: true,
                     colour_description: Some(ColourDescription{
-                        colour_primaries: 1,
+                        colour_primaries: ColourPrimaries::Bt709,
                         transfer_characteristics: 1,
                         matrix_coefficients: 1,
                     }),
