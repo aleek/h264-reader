@@ -31,7 +31,7 @@ impl From<rbsp::BitReaderError> for PpsError {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum SliceGroupChangeType {
     BoxOut,
     RasterScan,
@@ -48,7 +48,7 @@ impl SliceGroupChangeType {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct SliceRect {
     top_left: u32,
     bottom_right: u32,
@@ -72,7 +72,7 @@ impl SliceRect {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum SliceGroup {
     Interleaved {
         run_length_minus1: Vec<u32>,
@@ -178,7 +178,7 @@ impl SliceGroup {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PicScalingMatrix {
     /// always has length 6
     pub scaling_list4x4: Vec<ScalingList<16>>,
@@ -238,7 +238,7 @@ impl PicScalingMatrix {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PicParameterSetExtra {
     pub transform_8x8_mode_flag: bool,
     pub pic_scaling_matrix: Option<PicScalingMatrix>,
@@ -289,7 +289,7 @@ impl PicParamSetId {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct PicParameterSet {
     pub pic_parameter_set_id: PicParamSetId,
     pub seq_parameter_set_id: SeqParamSetId,
