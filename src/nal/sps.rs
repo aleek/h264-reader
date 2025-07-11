@@ -722,12 +722,12 @@ pub enum ColourPrimaries {
 }
 
 impl ColourPrimaries {
-    fn from(colour_primaries: u8) -> ColourPrimaries {
-        match colour_primaries {
-            0 => ColourPrimaries::Reserved(colour_primaries),
+    fn from(colour_primary: u8) -> ColourPrimaries {
+        match colour_primary {
+            0 => ColourPrimaries::Reserved(colour_primary),
             1 => ColourPrimaries::Bt709,
             2 => ColourPrimaries::Unspecified,
-            3 => ColourPrimaries::Reserved(colour_primaries),
+            3 => ColourPrimaries::Reserved(colour_primary),
             4 => ColourPrimaries::Bt470M,
             5 => ColourPrimaries::Bt470Bg,
             6 => ColourPrimaries::Smpte170M,
@@ -738,7 +738,7 @@ impl ColourPrimaries {
             11 => ColourPrimaries::Smpte431_2,
             12 => ColourPrimaries::Smpte432_1,
             22 => ColourPrimaries::Ebu3213,
-            _ => ColourPrimaries::Reserved(colour_primaries),
+            _ => ColourPrimaries::Reserved(colour_primary),
         }
     }
 }
